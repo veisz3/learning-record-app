@@ -32,13 +32,17 @@ func main() {
 
 	// CORS設定
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:5173"},
+		AllowOrigins:     []string{"http://localhost:5173", "https://learning-record-lcb7gexkl-veisz3s-projects.vercel.app"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		MaxAge:           12 * 60 * 60,
 	}))
+
+	if gin.Mode() == gin.ReleaseMode {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	r.Use(middleware.ErrorMiddleware())
 
@@ -50,10 +54,6 @@ func main() {
 		api.PUT("/learning/:id", handler.UpdateLearningRecord)
 
 	}
-
-	// if err := r.Run(":8080"); err != nil {
-	// 	log.Fatalf("Failed to start server: %v", err)
-	// }
 
 	if err := r.Run(":" + config.Port); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
