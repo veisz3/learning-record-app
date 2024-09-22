@@ -7,13 +7,14 @@ import (
 )
 
 type Config struct {
-	DBHost     string `mapstructure:"DB_HOST"`
-	DBPort     string `mapstructure:"DB_PORT"`
-	DBUser     string `mapstructure:"DB_USER"`
-	DBPassword string `mapstructure:"DB_PASSWORD"`
-	DBName     string `mapstructure:"DB_NAME"`
-	ServerPort string `mapstructure:"SERVER_PORT"`
-	Port       string
+	DBHost      string `mapstructure:"DB_HOST"`
+	DBPort      string `mapstructure:"DB_PORT"`
+	DBUser      string `mapstructure:"DB_USER"`
+	DBPassword  string `mapstructure:"DB_PASSWORD"`
+	DBName      string `mapstructure:"DB_NAME"`
+	ServerPort  string `mapstructure:"SERVER_PORT"`
+	Port        string
+	DatabaseURL string
 }
 
 func LoadConfig() (config Config, err error) {
@@ -45,6 +46,7 @@ func LoadConfig() (config Config, err error) {
 
 	// PORTを設定
 	config.Port = port
+	config.DatabaseURL = os.Getenv("DATABASE_URL")
 
 	// DATABASE_URLが設定されている場合、それを優先して使用
 	if dbURL := os.Getenv("DATABASE_URL"); dbURL != "" {

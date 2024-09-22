@@ -10,18 +10,25 @@ import (
 )
 
 func NewPostgresDB(config *config.Config) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Tokyo",
-		config.DBHost, config.DBUser, config.DBPassword, config.DBName, config.DBPort)
+	var dsn string
+	if config.DatabaseURL != "" {
+		// If DATABASE_URL is provided, use it directly
+		dsn = config.DatabaseURL
+	} else {
+		// Otherwise, construct DSN from individual config fields
+		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Tokyo",
+			config.DBHost, config.DBUser, config.DBPassword, config.DBName, config.DBPort)
+	}
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to connect to database: %v", err)
 	}
 
 	// Auto Migrate
 	err = db.AutoMigrate(&domain.LearningRecord{})
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to auto migrate: %v", err)
 	}
 
 	return db, nil
