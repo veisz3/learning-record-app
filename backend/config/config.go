@@ -1,6 +1,10 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"os"
+
+	"github.com/spf13/viper"
+)
 
 type Config struct {
 	DBHost     string `mapstructure:"DB_HOST"`
@@ -9,6 +13,7 @@ type Config struct {
 	DBPassword string `mapstructure:"DB_PASSWORD"`
 	DBName     string `mapstructure:"DB_NAME"`
 	ServerPort string `mapstructure:"DB_SERVER_PORT"`
+	Port       string
 }
 
 func LoadConfig() (config Config, err error) {
@@ -21,6 +26,11 @@ func LoadConfig() (config Config, err error) {
 	err = viper.ReadInConfig()
 	if err != nil {
 		return
+	}
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // デフォルトポート
 	}
 
 	err = viper.Unmarshal(&config)
