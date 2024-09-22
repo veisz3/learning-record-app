@@ -23,8 +23,8 @@ func NewPostgresDB(config *config.Config) (*gorm.DB, error) {
 
 	// Log the connection attempt (remove in production)
 	log.Printf("Attempting to connect with DSN: %s", u.String())
-
-	db, err := gorm.Open(postgres.Open(u.String()), &gorm.Config{})
+	dsn := "postgres://learning_record_db_21m1_user:ihfy3EZANhAi7Y6VXmV3FT7Jv758wQU1@dpg-crnnoh88fa8c738iptpg-a.singapore-postgres.render.com:5432/learning_record_db_21m1?sslmode=require"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database: %v", err)
 	}
