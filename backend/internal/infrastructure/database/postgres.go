@@ -10,9 +10,9 @@ import (
 )
 
 func NewPostgresDB(config *config.Config) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
-		config.DBHost, config.DBUser, config.DBPassword, config.DBName, config.DBPort)
-
+	// dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
+	// 	config.DBHost, config.DBUser, config.DBPassword, config.DBName, config.DBPort)
+	dsn := config.DBURL
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database: %v", err)
