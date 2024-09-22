@@ -13,8 +13,8 @@ type Config struct {
 	// DBPassword string `mapstructure:"DB_PASSWORD"`
 	// DBName     string `mapstructure:"DB_NAME"`
 	// ServerPort string `mapstructure:"SERVER_PORT"`
-	DBURL string `mapstructure:"DB_URL"`
-	Port  string `mapstructure:"PORT"`
+	DATABASE_URL string `mapstructure:"DATABASE_URL"`
+	Port         string `mapstructure:"PORT"`
 }
 
 func LoadConfig() (config Config, err error) {
