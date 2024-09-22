@@ -7,14 +7,13 @@ import (
 )
 
 type Config struct {
-	DBHost      string `mapstructure:"DB_HOST"`
-	DBPort      string `mapstructure:"DB_PORT"`
-	DBUser      string `mapstructure:"DB_USER"`
-	DBPassword  string `mapstructure:"DB_PASSWORD"`
-	DBName      string `mapstructure:"DB_NAME"`
-	ServerPort  string `mapstructure:"SERVER_PORT"`
-	Port        string
-	DatabaseURL string
+	DBHost     string `mapstructure:"DB_HOST"`
+	DBPort     string `mapstructure:"DB_PORT"`
+	DBUser     string `mapstructure:"DB_USER"`
+	DBPassword string `mapstructure:"DB_PASSWORD"`
+	DBName     string `mapstructure:"DB_NAME"`
+	ServerPort string `mapstructure:"SERVER_PORT"`
+	Port       string `mapstructure:"PORT"`
 }
 
 func LoadConfig() (config Config, err error) {
@@ -42,16 +41,6 @@ func LoadConfig() (config Config, err error) {
 	err = viper.Unmarshal(&config)
 	if err != nil {
 		return
-	}
-
-	// PORTを設定
-	config.Port = port
-	config.DatabaseURL = os.Getenv("DATABASE_URL")
-
-	// DATABASE_URLが設定されている場合、それを優先して使用
-	if dbURL := os.Getenv("DATABASE_URL"); dbURL != "" {
-		// DATABASE_URLからDBHost, DBPort, DBUser, DBPassword, DBNameを設定する処理を追加
-		// この部分は使用しているデータベースドライバーによって異なる可能性があります
 	}
 
 	return config, nil
