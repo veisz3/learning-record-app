@@ -17,7 +17,8 @@ const LearningForm: React.FC = () => {
                 ...data,
                 duration: Number(data.duration)
             };
-            await axios.post('http://localhost:8080/api/learning', formData);
+            await axios.post('https://learning-record-app-w5p4.onrender.com/api/learning', formData);
+            // await axios.post('http://localhost:8080/api/learning', formData);
             alert('学習記録を保存しました');
             reset();
         } catch (error) {

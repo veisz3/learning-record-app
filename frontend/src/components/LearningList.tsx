@@ -27,7 +27,8 @@ const LearningList: React.FC = () => {
 
     const fetchRecords = async () => {
         try {
-            const response = await axios.get<LearningRecord[]>('http://localhost:8080/api/learning');
+            // const response = await axios.get<LearningRecord[]>('http://localhost:8080/api/learning');
+            const response = await axios.get<LearningRecord[]>('https://learning-record-app-w5p4.onrender.com/api/learning');
             setRecords(response.data);
         } catch (error) {
             console.error('Error fetching records:', error);
@@ -43,7 +44,8 @@ const LearningList: React.FC = () => {
         if (editingRecord) {
             try {
                 console.log(editingRecord)
-                await axios.put(`http://localhost:8080/api/learning/${editingRecord.id}`,editingRecord)
+                await axios.put(`https://learning-record-app-w5p4.onrender.com/api/learning/${editingRecord.id}`,editingRecord)
+                // await axios.put(`http://localhost:8080/api/learning/${editingRecord.id}`,editingRecord)
                 setIsEditModalOpen(false);
                 fetchRecords();
             } catch (error) {
@@ -60,7 +62,8 @@ const LearningList: React.FC = () => {
     const handleDeleteConfirm = async () => {
         if (recordToDelete) {
             try {
-                await axios.delete(`http://localhost:8080/api/learning/${recordToDelete}`);
+                await axios.delete(`https://learning-record-app-w5p4.onrender.com/api/learning/${recordToDelete}`);
+                // await axios.delete(`http://localhost:8080/api/learning/${recordToDelete}`);
                 setIsDeleteDialogOpen(false);
                 fetchRecords();
             } catch (error) {
