@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -14,6 +15,7 @@ import (
 )
 
 func main() {
+	gin.SetMode(gin.ReleaseMode)
 	config, err := config.LoadConfig()
 	if err != nil {
 		log.Fatalf("Failed to load config: %v", err)
@@ -39,10 +41,7 @@ func main() {
 		AllowCredentials: true,
 		MaxAge:           12 * 60 * 60,
 	}))
-
-	if gin.Mode() == gin.ReleaseMode {
-		gin.SetMode(gin.ReleaseMode)
-	}
+	r.SetTrustedProxies(nil)
 
 	r.Use(middleware.ErrorMiddleware())
 
@@ -55,7 +54,12 @@ func main() {
 
 	}
 
-	if err := r.Run(":" + config.Port); err != nil {
-		log.Fatalf("Failed to start server: %v", err)
+	// if err := r.Run(":" + config.Port); err != nil {
+	// 	log.Fatalf("Failed to start server: %v", err)
+	// }
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // デフォルトポート
 	}
+	r.Run(":" + port)
 }
