@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -54,12 +53,5 @@ func main() {
 
 	}
 
-	// if err := r.Run(":" + config.Port); err != nil {
-	// 	log.Fatalf("Failed to start server: %v", err)
-	// }
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080" // デフォルトポート
-	}
-	r.Run(":" + port)
+	r.Run(":" + config.Port)
 }
